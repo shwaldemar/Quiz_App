@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <h1>Hi Simon</h1>
+  
   <Header/>
   <QuestionBox/>
   </div>
