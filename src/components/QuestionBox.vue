@@ -3,7 +3,7 @@
     <div>
     <b-jumbotron>
       <template slot:lead>
-        Questions from the API will render here.
+        {{currentQuestion.question}}
       </template>
 
       <hr class="my-4">
@@ -21,6 +21,9 @@
 
 <script>
 export default {
+  props: {
+    currentQuestion: Object
+  }
 }
 </script>
 

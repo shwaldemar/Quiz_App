@@ -5,7 +5,9 @@
   <b-container class="bv-example-row">
   <b-row>
     <b-col sm="6" offset="3">
-      <QuestionBox/>
+      <QuestionBox
+      :currentQuestion="quiz[index]"
+      />
     </b-col>
   </b-row>
 </b-container>
@@ -21,7 +23,8 @@ export default {
   name: 'app',
   data(){
     return {
-      quiz: []
+      quiz: [],
+      index: 0
     }
   },
   components: {
