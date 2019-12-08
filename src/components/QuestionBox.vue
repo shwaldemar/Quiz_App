@@ -8,12 +8,10 @@
 
       <hr class="my-4">
 
-      <p>
-        Answer options from the API will render here.
-      </p>
+      <p v-for="answer in answers" :key="answer">{{answer}}</p>
 
       <b-button variant="primary" href="#">Submit Answer</b-button>
-      <b-button variant="success" href="#">Next Question</b-button>
+      <b-button @click="next" variant="success" href="#">Next Question</b-button>
     </b-jumbotron>
     </div>
   </div>
@@ -22,7 +20,14 @@
 <script>
 export default {
   props: {
-    currentQuestion: Object
+    currentQuestion: Object,
+    next: Function,
+  },
+  computed: {
+    answers(){
+      let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
+      return answers
+    }
   }
 }
 </script>

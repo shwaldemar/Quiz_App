@@ -6,7 +6,9 @@
   <b-row>
     <b-col sm="6" offset="3">
       <QuestionBox
+      v-if="quiz.length"
       :currentQuestion="quiz[index]"
+      :next="next"
       />
     </b-col>
   </b-row>
@@ -25,6 +27,11 @@ export default {
     return {
       quiz: [],
       index: 0
+    }
+  },
+  methods: {
+    next(){
+      return this.index++
     }
   },
   components: {
