@@ -10,10 +10,13 @@
 
       <b-list-group>
         <b-list-group-item
-          v-for="(answer, index) in shuffledAnswers" :key="index"
+          v-for="(answer, index) in shuffledAnswers"
+          :key="index"
           @click.prevent="selectAnswer(index)"
-          :class="[selectedIndex === index ? 'selected' : '']"
-          >
+          :class="[
+            !answered && selectedIndex === index ? 'selected' : answered && correctIndex === index ? 'correct' : answered && correctIndex !== index ? 'incorrect' : ''
+          ]"
+        >
           {{answer}}
         </b-list-group-item>
       </b-list-group>
@@ -107,6 +110,6 @@ export default {
   background-color: lightgreen;
 }
 .incorrect {
-  background-color: red;
+  background-color: #ff726f;
 }
 </style>
