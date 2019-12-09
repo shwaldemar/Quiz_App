@@ -10,7 +10,7 @@
 
       <b-list-group>
         <b-list-group-item
-          v-for="(answer, index) in answers" :key="index"
+          v-for="(answer, index) in shuffledAnswers" :key="index"
           @click.prevent="selectAnswer(index)"
           :class="[selectedIndex === index ? 'selected' : '']"
           >
@@ -19,8 +19,14 @@
       </b-list-group>
       <!-- <p v-for="(answer, index) in answers" :key="index">{{answer}}</p> -->
 
-      <b-button  variant="primary" href="#">Submit Answer</b-button>
-      <b-button @click="next" variant="success" href="#">Next Question</b-button>
+      <b-button
+      variant="primary"
+      @click="submitAnswer"
+      :disabled="selectedIndex === null || answered">
+      Submit Answer
+      </b-button>
+
+      <b-button @click="next" variant="success">Next Question</b-button>
     </b-jumbotron>
     </div>
   </div>
@@ -30,15 +36,18 @@
 import _ from 'lodash'
 
 export default {
-  data(){
+  data: function() {
     return {
       selectedIndex: null,
-      shuffledAnswers: []
+      shuffledAnswers: [],
+      correctIndex: null,
+      answered: false
     }
   },
   props: {
     currentQuestion: Object,
     next: Function,
+    increment: Function
   },
   methods: {
     selectAnswer: function(index){
@@ -47,7 +56,17 @@ export default {
     shuffleAnswers: function(){
       let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
       this.shuffledAnswers = _.shuffle(answers)
-      return this.shuffledAnswers
+      this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+    },
+    submitAnswer: function(){
+      let isCorrect = false
+
+      if(this.selectedIndex === this.correctIndex){
+        isCorrect = true
+      }
+      this.answered = true
+
+      this.increment(isCorrect)
     }
   },
   watch: {
@@ -56,12 +75,14 @@ export default {
       handler(){
         this.selectedIndex = null
         this.shuffleAnswers()
+        this.answered = false
       }
     }
   },
   computed: {
     answers(){
-      let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
+      let answers = [...this.currentQuestion.incorrect_answers]
+      answers.push(this.currentQuestion.correct_answer)
       return answers
     }
   }
